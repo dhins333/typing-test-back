@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "env-cmd -f ./settings/config.env nodemon src/index.js -e js",
-    "start":"node src/index.js"
+    "start": "node src/index.js"
   },
   "keywords": [],
   "author": "",
@@ -13,7 +13,8 @@
   "dependencies": {
     "axios": "^0.19.2",
     "express": "^4.17.1",
-    "shuffle-array": "^1.0.1"
+    "shuffle-array": "^1.0.1",
+    "socket.io": "^2.3.0"
   },
   "devDependencies": {
     "env-cmd": "^10.1.0",
