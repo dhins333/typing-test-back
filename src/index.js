@@ -21,17 +21,48 @@ app.get('*',(req,res) => {
 
 io.on('connect',(socket) => {
 
-    queue.enqueue(socket.id);
-    socketMap[socket.id] = undefined;
-    console.log(queue,socketMap);
+    // console.log(socket.id);
+    
+    // socketMap[socket.id] = undefined;
+    // console.log(queue,socketMap);
+
+    socket.on('queue',() => {
+        queue.enqueue(socket.id);    
+    })
 
     socket.on('disconnect',() => {
-        delete socketMap[socket.id];
+        // delete socketMap[socket.id];
+        // console.log(socketMap);
+        // console.log('disconnected');
+        io.to(socketMap[socket.id]).emit('op_disconnect','Opponent Disconnected');
+        if(socketMap[socket.id]){
+            delete socketMap[socket.id];
+        }
+        else{
+            queue.remove(socket.id);
+        }
         console.log(socketMap);
     })
+
+
 
 } )
 
 server.listen(process.env.PORT,(req,res) => {
     console.log('Server Started');
 });
+
+const pairing = () => {
+    setInterval(() => {
+        if(queue.len >= 2){
+            const a = queue.dequeue().data;
+            const b = queue.dequeue().data;
+            socketMap[a] = b;
+            socketMap[b] = a;
+            io.to(a).emit('matched',socketMap[a]);
+            io.to(b).emit('matched',socketMap[b]);
+        }
+    },5000)
+}
+
+pairing();

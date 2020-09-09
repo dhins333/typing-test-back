@@ -16,11 +16,11 @@ class Queue{
             this.end = node;
         }
         this.len = this.len + 1;
-        this.display();
+        // this.display();
     }
 
     dequeue(){
-        this.display();
+        // this.display();
         if(this.start === undefined){
             return('Queue Empty');
         }
@@ -39,9 +39,28 @@ class Queue{
         }
     }
 
+    remove(data){
+        if(data === this.start.data){
+            this.start = this.start.next;
+            this.len = this.len-1;
+        }
+        else{
+            let node = this.start;
+            while(node.next!=undefined){
+                if(node.next.data === data){
+                    node.next = node.next.next;
+                    this.len = this.len-1;
+                    break;
+                }
+                node = node.next;
+            }
+        }
+    }
+
     display(){
         let node = this.start;
         while(node !== undefined){
+            console.log(node.data);
             node = node.next;
         }
     }
