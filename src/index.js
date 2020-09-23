@@ -46,6 +46,7 @@ io.on('connect',(socket) => {
 
     socket.on('done',() => {
         io.to(socketMap[socket.id]).emit('lose');
+        socketMap[socketMap[socket.id]] = 'done';
         socketMap[socket.id] = 'done';
     })
 
